@@ -6,8 +6,8 @@ class JobBase(BaseModel):
     name: str
     location: str
     details: Optional[str] = None
-    is_completed: bool = False
-    start_date: Optional[date] = date.today()
+    is_complete: bool = False
+    date: date
 
 
 
