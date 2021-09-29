@@ -20,5 +20,20 @@ class Job(JobBase):
 
 
 class CreateJob(JobBase):
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "name": "Lake house",
+                "location": "24 lakeview rd",
+                "details": "bathroom remodel",
+                "is_complete": "False",
+                "date": "2021-09-29"
+            }
+        }
+
+
+class UpdateJob(JobBase):
+
     pass
 

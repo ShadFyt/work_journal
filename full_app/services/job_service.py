@@ -6,6 +6,8 @@ from data.jobs_model import Job
 from schemas import job_schema
 from data import db_session
 
+from fastapi.encoders import jsonable_encoder
+
 
 # class JobDal():
 #     def __init__(self):
@@ -46,4 +48,15 @@ async def show_job(job_id: int):
 
 async def update_job(job_id: int, job: job_schema.CreateJob):
     async with db_session.create_async_session() as session:
-        print(job)
+        query = select(Job).filter(Job.id == job_id)
+        results = await session.execute(query)
+        job_from_db = results.scalar_one_or_none()
+        job_from_db.name = job.name
+        job_from_db.location = job.location
+        job_from_db.details = job.details
+        job_from_db.date = job.date
+        job_from_db.is_complete = job.is_complete
+        await session.commit()
+        return job_from_db
+
+        

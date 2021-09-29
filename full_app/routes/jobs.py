@@ -15,18 +15,18 @@ async def show_all_jobs() -> dict:
 
 @router.get("/{job_id}", tags=["jobs"])
 async def show_job(job_id: int):
-    result = await job_service.show_job(job_id= job_id)
-    return result
+    return await job_service.show_job(job_id= job_id)
+    
 
 @router.post("/", response_model=job_schema.Job)
 async def create_job(job: job_schema.CreateJob):
-    result = await job_service.create_job(job)
-    return result
+    return await job_service.create_job(job)
+
 
 # async def create_job(job: job_schema.CreateJob):
 #     job_dal = job_service.JobDal()
 #     return await job_dal.create_job(job)
 
-@router.put("/{job_id}", response_model=job_schema.CreateJob)
+@router.put("/{job_id}", response_model=job_schema.Job)
 async def update_job(job: job_schema.CreateJob, job_id: int):
-    await job_service.update_job(job = job, job_id= job_id)
+    return await job_service.update_job(job = job, job_id= job_id)
