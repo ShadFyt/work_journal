@@ -11,7 +11,7 @@ app = fastapi.FastAPI()
 app.include_router(jobs.router)
 
 def configure_db(dev_mode: bool):
-    file = (Path(__file__).parent / 'db' / 'pypi.sqlite').absolute()
+    file = (Path(__file__).parent / 'db' / 'test.sqlite').absolute()
     db_session.global_init(file.as_posix())
 
 

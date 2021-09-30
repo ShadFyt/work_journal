@@ -18,7 +18,7 @@ async def show_job(job_id: int):
     return await job_service.show_job(job_id= job_id)
     
 
-@router.post("/", response_model=job_schema.Job)
+@router.post("/", response_model=job_schema.Job, status_code=201)
 async def create_job(job: job_schema.CreateJob):
     return await job_service.create_job(job)
 
