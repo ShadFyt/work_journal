@@ -3,10 +3,9 @@ from pathlib import Path
 import fastapi
 import uvicorn
 
-from data import db_session
-from schemas import task_schema
-from services.task_service import create_job_task
+from  data import db_session
 from routes import jobs, task_route
+
 
 app = fastapi.FastAPI()
 

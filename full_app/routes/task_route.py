@@ -5,7 +5,7 @@ from schemas import task_schema
 from services import task_service
 
 
-router = APIRouter(prefix="/jobs/{job_id}/tasks")
+router = APIRouter(prefix="/jobs/{job_id}/tasks", tags=["tasks"])
 
 @router.post("/", status_code= 201, response_model=task_schema.CreateTask)
 async def create_task(task: task_schema.CreateTask ,job_id:int):
