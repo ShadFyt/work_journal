@@ -1,12 +1,12 @@
 #crud operations for job routes
-from typing import Optional, List
+from typing import  List
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.future import select
 
 from data.jobs_model import Job
 from schemas import job_schema
-from data import db_session
+from data import db_session, task_model
 
-from fastapi.encoders import jsonable_encoder
 
 
 # class JobDal():
@@ -30,13 +30,14 @@ async def list_all_jobs() -> List:
     
 
 async def create_job(_job: job_schema.CreateJob):
-
-    job = Job(**_job.dict())
+    new_job = _job.dict()
 
     async with db_session.create_async_session() as session:
+        job = Job(**new_job)
+        # job.tasks = []
         session.add(job)
         await session.commit()
-    return job
+        return job
 
 
 async def show_job(job_id: int):

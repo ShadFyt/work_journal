@@ -5,22 +5,26 @@ from typing import Optional
 class TaskBase(BaseModel):
     detail: str
     is_complete: bool = False
-    
-
-
-class Task(TaskBase):
-    id: int
 
     class Config():
         orm_mode = True
     
 
-class CreateTask():
+
+class Task(TaskBase):
+    id: int
+    job_id: int
 
     class Config():
-        schema_extra = {
-            "example": {
-                "detail": "remove old floors",
-                "is_complete": "false"
-            }
-        }
+        orm_mode = True
+    
+
+class CreateTask(TaskBase):
+    pass
+    # class Config():
+    #     schema_extra = {
+    #         "example": {
+    #             "detail": "remove old floors",
+    #             "is_complete": "false"
+    #         }
+    #     }

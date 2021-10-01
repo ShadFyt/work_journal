@@ -1,6 +1,9 @@
 import datetime
+from typing import List
 import sqlalchemy as sa
+import sqlalchemy.orm as orm
 
+# from data.task_model import Task
 from data.modelbase import SqlAlchemyBase
 
 
@@ -14,11 +17,7 @@ class Job(SqlAlchemyBase):
     is_complete =sa.Column(sa.Boolean, default=False)
     date =sa.Column(sa.DateTime, default = datetime.datetime.now, index=True)
 
-
-class Task(SqlAlchemyBase):
-    __tablename__ = 'tasks'
-
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    detail = sa.Column(sa.String)
-    is_complete = sa.Column(sa.Boolean, default = False)
-    
+    tasks = orm.relation(
+        "Task",
+        back_populates="job",
+    )

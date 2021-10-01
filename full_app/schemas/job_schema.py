@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 from datetime import date
+
+from schemas import task_schema
 
 class JobBase(BaseModel):
     name: str
@@ -8,12 +10,15 @@ class JobBase(BaseModel):
     details: Optional[str] = None
     is_complete: bool = False
     date: date
+    tasks: List[task_schema.Task] = []
 
 
 
 
 class Job(JobBase):
     id: int
+    tasks: List[task_schema.Task] = []
+
 
     class Config():
         orm_mode = True
@@ -28,7 +33,8 @@ class CreateJob(JobBase):
                 "location": "24 lakeview rd",
                 "details": "bathroom remodel",
                 "is_complete": "False",
-                "date": "2021-09-29"
+                "date": "2021-09-29",
+                
             }
         }
 
