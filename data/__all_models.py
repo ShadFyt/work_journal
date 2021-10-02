@@ -1,1 +1,0 @@
-from data.jobs_model import Job
