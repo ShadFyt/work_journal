@@ -22,3 +22,6 @@ if __name__ == "__main__":
     configure_db(dev_mode=True)
 
     uvicorn.run(app)
+
+
+configure_db(dev_mode=True)

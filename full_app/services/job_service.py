@@ -2,6 +2,7 @@
 from typing import  List
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.future import select
+from sqlalchemy.sql.expression import update
 
 from data.jobs_model import Job
 from schemas import job_schema
@@ -21,7 +22,7 @@ from data import db_session, task_model
 #             await session.flush()
         
 
-async def list_all_jobs() -> List:
+async def list_all_jobs() -> List[job_schema.ShowJob]:
     async with db_session.create_async_session() as session:
         #query to db goes here
         query = select(Job).order_by(Job.date.desc())
@@ -52,12 +53,18 @@ async def update_job(job_id: int, job: job_schema.CreateJob):
         query = select(Job).filter(Job.id == job_id)
         results = await session.execute(query)
         job_from_db = results.scalar_one_or_none()
+        print(job_from_db)
+        if not job_from_db:
+            return job_from_db
         job_from_db.name = job.name
         job_from_db.location = job.location
         job_from_db.details = job.details
         job_from_db.date = job.date
         job_from_db.is_complete = job.is_complete
+        job_from_db.tasks = []
         await session.commit()
+
+
         return job_from_db
 
         

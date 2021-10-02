@@ -6,9 +6,10 @@ class TaskBase(BaseModel):
     detail: str
     is_complete: bool = False
 
-    class Config():
+class ShowTask(TaskBase):
+    id: int
+    class Config:
         orm_mode = True
-    
 
 
 class Task(TaskBase):
@@ -20,11 +21,10 @@ class Task(TaskBase):
     
 
 class CreateTask(TaskBase):
-    pass
-    # class Config():
-    #     schema_extra = {
-    #         "example": {
-    #             "detail": "remove old floors",
-    #             "is_complete": "false"
-    #         }
-    #     }
+    class Config():
+        schema_extra = {
+            "example": {
+                "detail": "remove old floors",
+                "is_complete": "false"
+            }
+        }

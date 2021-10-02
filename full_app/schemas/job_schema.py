@@ -10,12 +10,13 @@ class JobBase(BaseModel):
     details: Optional[str] = None
     is_complete: bool = False
     date: date
-    tasks: List[task_schema.Task] = []
 
+class ShowJob(JobBase):
+    pass
+    class Config:
+        orm_mode=True
 
-
-
-class Job(JobBase):
+class JobInDb(JobBase):
     id: int
     tasks: List[task_schema.Task] = []
 
@@ -25,7 +26,7 @@ class Job(JobBase):
 
 
 class CreateJob(JobBase):
-    
+    tasks: List[task_schema.Task] = []
     class Config:
         schema_extra = {
             "example": {
