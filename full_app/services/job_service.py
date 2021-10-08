@@ -1,8 +1,7 @@
 #crud operations for job routes
 from typing import  List
 from sqlalchemy.future import select
-from sqlalchemy import delete
-from sqlalchemy.sql.expression import false
+from sqlalchemy import delete, update
 
 from data.jobs_model import Job
 from schemas import job_schema
@@ -48,7 +47,7 @@ async def show_job(job_id: int):
 
         return result.scalar_one_or_none()
 
-async def update_job(job_id: int, job: job_schema.CreateJob):
+async def update_job(job_id: int, job: job_schema.ShowJob):
     async with db_session.create_async_session() as session:
         query = select(Job).filter(Job.id == job_id)
         results = await session.execute(query)
@@ -61,6 +60,7 @@ async def update_job(job_id: int, job: job_schema.CreateJob):
         job_from_db.date = job.date
         job_from_db.is_complete = job.is_complete
         await session.commit()
+
 
 
         return job_from_db

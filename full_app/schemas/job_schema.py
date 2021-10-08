@@ -12,7 +12,7 @@ class JobBase(BaseModel):
     date: date
 
 class ShowJob(JobBase):
-    pass
+    id: int
     class Config:
         orm_mode=True
 
@@ -26,7 +26,7 @@ class JobInDb(JobBase):
 
 
 class CreateJob(JobBase):
-    tasks: List[task_schema.Task] = []
+    tasks: Optional[List[task_schema.Task]] = []
     class Config:
         schema_extra = {
             "example": {

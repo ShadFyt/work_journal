@@ -28,3 +28,7 @@ class CreateTask(TaskBase):
                 "is_complete": "false"
             }
         }
+
+
+class UpdateTask(TaskBase):
+    pass
