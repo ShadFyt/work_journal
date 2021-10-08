@@ -1,12 +1,12 @@
 #crud operations for job routes
 from typing import  List
-from fastapi.encoders import jsonable_encoder
 from sqlalchemy.future import select
-from sqlalchemy.sql.expression import update
+from sqlalchemy import delete
+from sqlalchemy.sql.expression import false
 
 from data.jobs_model import Job
 from schemas import job_schema
-from data import db_session, task_model
+from data import db_session
 
 
 
@@ -53,7 +53,6 @@ async def update_job(job_id: int, job: job_schema.CreateJob):
         query = select(Job).filter(Job.id == job_id)
         results = await session.execute(query)
         job_from_db = results.scalar_one_or_none()
-        print(job_from_db)
         if not job_from_db:
             return job_from_db
         job_from_db.name = job.name
@@ -61,10 +60,15 @@ async def update_job(job_id: int, job: job_schema.CreateJob):
         job_from_db.details = job.details
         job_from_db.date = job.date
         job_from_db.is_complete = job.is_complete
-        job_from_db.tasks = []
         await session.commit()
 
 
         return job_from_db
 
-        
+
+async def destory_job(job_id):
+    async with db_session.create_async_session() as session:
+        stmt = delete(Job).where(Job.id == job_id)
+        print(stmt)
+        await session.execute(stmt)
+        await session.commit()

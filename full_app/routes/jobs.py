@@ -12,7 +12,6 @@ router = APIRouter(prefix="/jobs", tags=["jobs"])
 @router.get("/", response_model= List[job_schema.ShowJob])
 async def show_all_jobs():
     results = await job_service.list_all_jobs()
-    print(type(results[0]))
     return results
 
 @router.get("/{job_id}", response_model= job_schema.ShowJob)
@@ -26,7 +25,6 @@ async def single_job(job_id: int, response: Response):
 
 
 
-
 @router.post("/", response_model=job_schema.JobInDb, status_code=201)
 async def new_job(job: job_schema.CreateJob):
     return await job_service.create_job(job)
@@ -36,10 +34,17 @@ async def new_job(job: job_schema.CreateJob):
 #     job_dal = job_service.JobDal()
 #     return await job_dal.create_job(job)
 
-@router.put("/{job_id}")
-async def update_job(job: job_schema.CreateJob, job_id: int):
-    result = await job_service.update_job(job = job, job_id= job_id)
-    if not result:
-        return {"detail": "Job not found"}
-    
-    return result
+@router.put("/{job_id}", status_code=200)
+async def update_job(job: job_schema.CreateJob, job_id: int, response: Response):
+    results = await job_service.update_job(job = job, job_id= job_id)
+    if not results:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {
+            "detail": f"job with the id of {job_id} doesn't exist"
+        }
+    return results
+
+
+@router.delete("/{job_id}")
+async def destory_job(job_id: int):
+    await job_service.destory_job(job_id=job_id)
